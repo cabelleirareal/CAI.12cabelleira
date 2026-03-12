@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-purple: #7C3AED;
+  --color-brand-dark: #4C1D95;
+  --color-brand-light: #EDE9FE;
+  --color-brand-pink: #DB2777;
+  --color-brand-accent: #F472B6;
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

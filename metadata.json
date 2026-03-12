@@ -1,0 +1,7 @@
+{
+  "name": "Remix: CAI.12 cabelleirareal",
+  "description": "app para cabeleireiros coloristas cabelleirareal",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
