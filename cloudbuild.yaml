@@ -1,17 +1,30 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-      args: ['build', '--build-arg', 'GEMINI_API_KEY=${_GEMINI_API_KEY}', '-t', 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA', '.']
-
-        - name: 'gcr.io/cloud-builders/docker'
-            args: ['push', 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA']
-
-              - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
-                  args: ['run', 'deploy', 'cabelleiraiapp', '--image=europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA', '--region=europe-west1', '--platform=managed', '--allow-unauthenticated']
-
-                  images:
-                    - 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA'
-
-                    substitutions:
-                        _GEMINI_API_KEY: ''
-
-                        timeout: '1800s'
+      args:
+            - 'build'
+                  - '--build-arg'
+                        - 'GEMINI_API_KEY=${_GEMINI_API_KEY}'
+                              - '-t'
+                                    - 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA'
+                                          - '.'
+                                            - name: 'gcr.io/cloud-builders/docker'
+                                                args:
+                                                      - 'push'
+                                                            - 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA'
+                                                              - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+                                                                  args:
+                                                                        - 'run'
+                                                                              - 'deploy'
+                                                                                    - 'cabelleiraiapp'
+                                                                                          - '--image=europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA'
+                                                                                                - '--region=europe-west1'
+                                                                                                      - '--platform=managed'
+                                                                                                            - '--allow-unauthenticated'
+                                                                                                            
+                                                                                                            images:
+                                                                                                              - 'europe-west1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/cai.12cabelleira/cabelleiraiapp:$COMMIT_SHA'
+                                                                                                              
+                                                                                                              substitutions:
+                                                                                                                _GEMINI_API_KEY: ''
+                                                                                                                
+                                                                                                                timeout: '1800s'
