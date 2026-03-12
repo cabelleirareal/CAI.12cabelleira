@@ -1,6 +1,11 @@
 # Stage 1: Build
 FROM node:22-alpine AS builder
 WORKDIR /app
+
+# Accept build-time API key (injected by Cloud Build substitution)
+ARG GEMINI_API_KEY
+ENV GEMINI_API_KEY=$GEMINI_API_KEY
+
 COPY package*.json ./
 RUN npm ci
 COPY . .
