@@ -12,23 +12,23 @@ const GuideStep: React.FC<GuideStepProps> = ({ icon, step, title, description, i
     <div className="relative flex flex-col items-center text-center group">
         {/* Connector Line */}
         {!isLast && (
-            <div className="hidden md:block absolute top-12 left-1/2 w-full h-0.5 bg-slate-200 -z-10"></div>
+            <div className="hidden md:block absolute top-16 left-1/2 w-full h-0.5 bg-white/5 -z-10"></div>
         )}
         
-        <div className="bg-white border-4 border-slate-50 w-14 h-14 md:w-24 md:h-24 rounded-full flex items-center justify-center shadow-lg mb-3 md:mb-6 group-hover:scale-110 group-hover:border-brand-light transition-all duration-300 z-10">
-            <div className="text-brand-purple transform scale-75 md:scale-100">
-                {React.cloneElement(icon as React.ReactElement<any>, { className: "h-6 w-6 md:h-10 md:w-10" })}
+        <div className="bg-cyber-dark/80 border-2 border-white/10 w-20 h-20 md:w-32 md:h-32 rounded-3xl flex items-center justify-center shadow-neon-glow mb-6 group-hover:scale-110 group-hover:border-cyber-purple transition-all duration-500 z-10 backdrop-blur-xl">
+            <div className="text-cyber-purple transform scale-90 md:scale-110">
+                {React.cloneElement(icon as React.ReactElement<any>, { className: "h-8 w-8 md:h-12 md:w-12", strokeWidth: 2.5 })}
             </div>
         </div>
         
-        <span className="text-[10px] md:text-xs font-bold text-brand-purple bg-brand-light px-2 py-0.5 md:px-3 md:py-1 rounded-full mb-1 md:mb-3">{step}</span>
-        <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-3 text-slate-900">{title}</h3>
-        <p className="text-slate-500 text-xs md:text-sm leading-relaxed max-w-[140px] md:max-w-xs">{description}</p>
+        <span className="text-[10px] md:text-xs font-black text-cyber-purple bg-cyber-purple/10 px-3 py-1.5 rounded-full mb-3 uppercase tracking-widest border border-cyber-purple/20 shadow-neon-glow">{step}</span>
+        <h3 className="text-sm md:text-2xl font-black mb-2 text-white tracking-tight">{title}</h3>
+        <p className="text-white/40 text-[10px] md:text-sm font-medium leading-relaxed max-w-[140px] md:max-w-xs">{description}</p>
     </div>
   );
 
 const Guide: React.FC = () => {
-  const iconClass = "h-8 w-8 md:h-10 md:w-10";
+  const iconClass = "h-8 w-8 md:h-12 md:w-12";
   
   const steps: Omit<GuideStepProps, 'isLast'>[] = [
     {
@@ -52,16 +52,19 @@ const Guide: React.FC = () => {
   ];
 
   return (
-    <section id="guide" className="py-12 md:py-24 bg-white border-t border-slate-100">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 text-slate-900">Como Funciona?</h2>
-            <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
-            Processo simplificado em apenas 3 passos.
+    <section id="guide" className="py-20 md:py-32 bg-cyber-bg border-t border-white/5 relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyber-purple/5 rounded-full blur-[150px] -z-10"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl md:text-5xl font-black mb-4 text-white tracking-tighter">Como <span className="text-cyber-gradient bg-clip-text text-transparent">Funciona?</span></h2>
+            <p className="text-sm md:text-lg text-white/50 font-medium max-w-2xl mx-auto leading-relaxed">
+            Processo simplificado e inteligente em apenas 3 passos para o resultado perfeito.
             </p>
         </div>
         
-        <div className="grid grid-cols-3 gap-3 md:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-3 gap-4 md:gap-12 max-w-6xl mx-auto">
           {steps.map((s, index) => (
             <GuideStep key={index} icon={s.icon} step={s.step} title={s.title} description={s.description} isLast={index === steps.length - 1} />
           ))}

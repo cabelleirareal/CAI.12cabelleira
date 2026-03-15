@@ -2,35 +2,99 @@
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-brand-purple: #7C3AED;
-  --color-brand-dark: #4C1D95;
-  --color-brand-light: #EDE9FE;
-  --color-brand-pink: #DB2777;
-  --color-brand-accent: #F472B6;
-  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3);
-  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  
+  /* Colors */
+  --color-cyber-bg: #0B0F1A;
+  --color-cyber-dark: #0D1326;
+  --color-cyber-deep: #101935;
+  --color-cyber-purple: #7B4DFF;
+  --color-cyber-pink: #FF4DB8;
+  --color-cyber-accent: #B478FF;
+  
+  /* Gradients */
+  --background-image-cyber-gradient: linear-gradient(90deg, #7B4DFF, #FF4DB8);
+  --background-image-cyber-bg-gradient: radial-gradient(circle at top right, #101935, #0B0F1A);
+  
+  /* Glows */
+  --shadow-neon-glow: 0 0 40px rgba(180, 120, 255, 0.25);
+  --shadow-neon-glow-strong: 0 0 60px rgba(180, 120, 255, 0.4);
+  --shadow-glass-inset: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  
+  /* Radius */
+  --radius-cyber: 20px;
+  --radius-cyber-input: 14px;
 }
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 antialiased;
+    @apply bg-cyber-bg text-white antialiased selection:bg-cyber-purple selection:text-white;
+    background-image: var(--background-image-cyber-bg-gradient);
   }
 }
 
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-[18px] border border-white/15 rounded-cyber shadow-neon-glow;
+  }
+  
+  .cyber-input {
+    @apply bg-white/10 border border-white/15 rounded-cyber-input px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-cyber-purple/50 transition-all;
+  }
+  
+  .cyber-button {
+    @apply bg-cyber-gradient text-white font-bold py-3 px-6 rounded-cyber-input shadow-neon-glow hover:shadow-neon-glow-strong hover:scale-[1.03] transition-all duration-300 active:scale-[0.98];
+  }
+  
+  .social-button {
+    @apply w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/15 flex items-center justify-center hover:bg-white/20 transition-all duration-300 shadow-neon-glow;
+  }
+
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(123, 77, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(123, 77, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center center;
+  }
+}
+
+@keyframes glowBreathing {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+@keyframes shineSweep {
+  0% { left: -100%; }
+  20% { left: 100%; }
+  100% { left: 100%; }
+}
+
+.animate-glow-breathing {
+  animation: glowBreathing 4s ease-in-out infinite;
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: skewX(-25deg);
+  animation: shineSweep 6s linear infinite;
+}
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-cyber-fade {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

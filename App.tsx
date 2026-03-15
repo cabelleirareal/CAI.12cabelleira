@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import ImageAnalysisModal from './components/ImageAnalysisModal';
-import ImageGenerationModal from './components/ImageGenerationModal';
-import ChatWidget from './components/ChatWidget';
-import LoginScreen from './components/LoginScreen';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import DiagnosisPage from './pages/DiagnosisPage';
+import StudioPage from './pages/StudioPage';
 import SplashScreen from './components/SplashScreen';
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
 
 const App: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAnalysisModalOpen, setAnalysisModalOpen] = useState(false);
-  const [isGenerationModalOpen, setGenerationModalOpen] = useState(false);
 
   // Handle Splash Screen Timer
   useEffect(() => {
@@ -22,37 +27,39 @@ const App: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // 1. Show Splash Screen first
   if (showSplash) {
     return <SplashScreen />;
   }
 
-  // 2. Show Login Screen if not authenticated
-  if (!isAuthenticated) {
-    return <LoginScreen onLoginSuccess={() => setIsAuthenticated(true)} />;
-  }
-
-  // 3. Show Main App
   return (
-    // SHELL CONTAINER: Fixed 100% height, no overflow
-    <div className="bg-slate-50 w-full h-full font-sans text-slate-800 selection:bg-brand-purple selection:text-white flex flex-col overflow-hidden relative animate-[fadeIn_0.5s_ease-out]">
-      
-      <Header />
-      
-      {/* SCROLLABLE AREA: Only this element scrolls. It pushes content behind the header. */}
-      <main id="app-main" className="flex-1 w-full overflow-y-auto overflow-x-hidden scrollbar-hide scroll-smooth relative z-0">
-        <Hero 
-          onStartDiagnosis={() => setAnalysisModalOpen(true)} 
-          onOpenImageGeneration={() => setGenerationModalOpen(true)}
-        />
-      </main>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route 
+            path="/diagnostico" 
+            element={
+              <ProtectedRoute>
+                <DiagnosisPage />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/estudio" 
+            element={
+              <ProtectedRoute>
+                <StudioPage />
+              </ProtectedRoute>
+            } 
+          />
+        </Route>
 
-      <ChatWidget />
-      
-      {/* MODALS: Highest Z-Index to cover everything */}
-      {isAnalysisModalOpen && <ImageAnalysisModal onClose={() => setAnalysisModalOpen(false)} />}
-      {isGenerationModalOpen && <ImageGenerationModal onClose={() => setGenerationModalOpen(false)} />}
-    </div>
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 
