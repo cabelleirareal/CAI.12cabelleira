@@ -21,8 +21,8 @@ async function startServer() {
     // In production, serve the built static files
     app.use(express.static(path.join(__dirname, "dist")));
     
-    // Fallback to index.html for SPA routing (Express v4 syntax)
-    app.get("*", (req, res) => {
+    // Fallback to index.html for SPA routing (Express v5 syntax)
+    app.get("*all", (req, res) => {
       res.sendFile(path.join(__dirname, "dist", "index.html"));
     });
   }
